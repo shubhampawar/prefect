@@ -3,7 +3,8 @@ import asyncio
 from prefect import flow, task
 import time
 # Define asynchronous tasks with appropriate delays
-@flow
+
+@flow(log_prints=True)
 def do_something_important(duration: int, not_so_secret_value: str) -> None:
     print(f"Sleeping for {duration} seconds")
     time.sleep(duration)
