@@ -7,7 +7,7 @@ import time
 @flow(log_prints=True)
 def do_something_important(duration: int, not_so_secret_value: str) -> None:
     print(f"Sleeping for {duration} seconds")
-    time.sleep(duration)
+    # time.sleep(duration)
     print(f"Doing something important with {not_so_secret_value} after {duration} seconds!")
 
 # Define the flow
