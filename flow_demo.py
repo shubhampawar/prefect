@@ -43,10 +43,10 @@ async def some_work():
     if not_so_secret_value is None:
         raise ValueError("You forgot to set MY_NOT_SO_SECRET_CONFIG!")
 
-    do_something_important5(not_so_secret_value)
-    do_something_important4(not_so_secret_value)
-    do_something_important3(not_so_secret_value)
-    do_something_important2(not_so_secret_value)
+    await do_something_important5(not_so_secret_value)
+    await do_something_important4(not_so_secret_value)
+    await do_something_important3(not_so_secret_value)
+    await do_something_important2(not_so_secret_value)
 
 
 if __name__ == "__main__":
