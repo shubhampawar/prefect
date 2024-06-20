@@ -7,41 +7,38 @@ import time
 # Define asynchronous tasks with appropriate delays
 
 class PrefectExample:
-    def __init__(self, name, duration, not_so_secret_value):
-        self.name = name
-        self.duration = duration
-        self.not_so_secret_value = not_so_secret_value
-
     @task(log_prints=True)
     def do_something_important(duration: int, not_so_secret_value: str) -> None:
         print(f"Sleeping for {duration} seconds")
         time.sleep(duration)
         print(f"Doing something important with {not_so_secret_value} after {duration} seconds!")
 
-    # Define the flow
-    @flow(log_prints=True)
-    async def some_work():
-        # Fetch environment variables
-        environment = os.environ.get("EXECUTION_ENVIRONMENT", "local")
-        not_so_secret_value = os.environ.get("MY_NOT_SO_SECRET_CONFIG")
 
-        print(f"Coming to you live from {environment}!")
+PrefectExample = PrefectExample()
 
-        if not_so_secret_value is None:
-            raise ValueError("You forgot to set MY_NOT_SO_SECRET_CONFIG!")
 
-        # Create a list of tasks with different sleep durations
-        tasks = [
-            do_something_important(5, not_so_secret_value),
-            do_something_important(4, not_so_secret_value),
-            do_something_important(3, not_so_secret_value),
-            do_something_important(2, not_so_secret_value),
-            do_something_important(1, not_so_secret_value),
-            do_something_important(0, not_so_secret_value),
-        ]
+@flow(log_prints=True)
+async def some_work():
+    # Fetch environment variables
+    environment = os.environ.get("EXECUTION_ENVIRONMENT", "local")
+    not_so_secret_value = os.environ.get("MY_NOT_SO_SECRET_CONFIG")
 
-        # Run all tasks concurrently
-        await asyncio.gather(*tasks)
+    print(f"Coming to you live from {environment}!")
+
+    if not_so_secret_value is None:
+        raise ValueError("You forgot to set MY_NOT_SO_SECRET_CONFIG!")
+    # Create a list of tasks with different sleep durations
+    tasks = [
+        PrefectExample.do_something_important(5, not_so_secret_value),
+        PrefectExample.do_something_important(4, not_so_secret_value),
+        PrefectExample.do_something_important(3, not_so_secret_value),
+        PrefectExample.do_something_important(2, not_so_secret_value),
+        PrefectExample.do_something_important(1, not_so_secret_value),
+        PrefectExample.do_something_important(0, not_so_secret_value),
+    ]
+
+    # Run all tasks concurrently
+    await asyncio.gather(*tasks)
 
 
 # Run the flow
